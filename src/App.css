@@ -1,5 +1,9 @@
 .App {
   text-align: center;
+  border-style: solid;
+  border-width: 1px;
+  border-color: white;
+
 }
 
 .App-logo {
@@ -19,4 +23,69 @@
 
 .App-link {
   color: #09d3ac;
+}
+
+.logo {
+  padding: 30px;
+  width: 200px;
+  position: relative;
+  left: 0px;
+}
+
+
+.product {
+  left: 10px;
+  text-align: left;
+  position: relative;
+  font-size: 12px;
+}
+
+.price {
+  right: 14px;
+  text-align: right;
+  position: absolute;
+  font-size: 12px;
+}
+
+.btn {
+  width: 150px;
+  height: 60px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  font-size: 18px;
+}
+
+.totalText {
+  left: 10px;
+  text-align: left;
+  position: relative;
+  font-size: 14px;
+  font-weight: bold; 
+}
+
+.productsContainer {
+  padding-bottom: 5%;
+}
+
+.totalContainer {
+  padding-top: 3%;
+  border-top: 1px solid grey;
+
+}
+
+
+.momsText {
+  left: 10px;
+  text-align: left;
+  position: relative;
+  font-size: 11px;
+
+}
+
+.momsPrice {
+  right: 14px;
+  text-align: right;
+  position: absolute;
+  font-size: 11px;
 }
