@@ -43,7 +43,7 @@ class ComponentToPrint extends React.Component {
           </div>
               <div className="totalContainer">
 
-                
+
               <tr>
                   <td className="totalText"></td>
                 </tr><tr>
@@ -55,7 +55,7 @@ class ComponentToPrint extends React.Component {
 
                 <tr>
                   <td className="totalText">AT BETALE</td>
-                  <td className="price" >{(this.state.totalPrice).toFixed(2)} DKK</td>
+                  <td className="totalPrice" >{(this.state.totalPrice).toFixed(2)} DKK</td>
                 </tr>
                 <tr>
                   <td className="momsText">HERAF UDGØR MOMS</td>

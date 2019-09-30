@@ -64,6 +64,15 @@
   font-weight: bold; 
 }
 
+.totalPrice {
+  right: 14px;
+  text-align: right;
+  position: absolute;
+  font-size: 12px;
+  font-weight: bold; 
+
+}
+
 .productsContainer {
   padding-bottom: 5%;
 }
