@@ -95,7 +95,7 @@
 }
 
 .right {
- position: fixed;
+ position: absolute;
  left: 60%
 }
 
@@ -117,9 +117,6 @@
   line-height: 30%;
 }
 
-.bytteinfo {
-}
-
 .openinghourscontainer {
   text-align: center;
   font-size: 12px;
@@ -128,9 +125,6 @@
   padding-top:20px;
 }
 
-.openinghoursheader { 
-  
-}
 
 .day{
   display: flex;
