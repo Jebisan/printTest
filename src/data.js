@@ -1,4 +1,4 @@
-const data = {
+export const data = {
     header: 'Matas Rosengårdscentret',
     address: 'Ørbækvej 75, 5220 Odense',
     tlf: '66 15 96 68',
@@ -22,5 +22,3 @@ const data = {
     bytteservice: ['Landsdækkende bytteservice i Matas.','Husk byttemærke eller bon. Se mere på matas.dk'],
     club: "BESKED FRA CLUB MATAS"
 };
-
-export default data

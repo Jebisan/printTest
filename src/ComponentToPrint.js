@@ -1,13 +1,11 @@
 import React, { useRef } from 'react';
 import ReactToPrint from 'react-to-print';
 import logo from './logo.png';
-import stregkode from './stregkode.jpg'
 import './App.css';
 import axios from 'axios';
-import data from './data.js'
+import {data} from './data.js'
+import Nfc from 'nfc-react-web';
 var JsBarcode = require('jsbarcode');
-
-
 
 
 class ComponentToPrint extends React.Component {
@@ -42,6 +40,18 @@ class ComponentToPrint extends React.Component {
   render() {
     return (
       <div className="App">
+        <Nfc
+          write="Written with nfc-react-web"
+          writeCallback={error => {
+            if (error) {
+              console.log('An error occurred while writing to tag: ', error);
+            } else {
+              console.log('Data written to tag! :)');
+            }
+          }}
+          
+          timeout={15} // time to keep trying to write to tags, in seconds
+        />
         <img src={logo} className="logo" alt="logo" />
         <div className="headerinfo">
           <p>{data.header}</p>
@@ -155,9 +165,9 @@ const Example = () => {
     <div>
       <ComponentToPrint ref={componentRef} />
       <ReactToPrint
-        trigger={() => <button className="btn" >Print receipt</button>}
         content={() => componentRef.current}
         copyStyles={true}
+        trigger={() => <button className="btn" >Print receipt</button>}
       />
 
     </div>
