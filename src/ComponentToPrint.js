@@ -4,9 +4,7 @@ import logo from './logo.png';
 import './App.css';
 import axios from 'axios';
 import {data} from './data.js'
-import Nfc from 'nfc-react-web';
 var JsBarcode = require('jsbarcode');
-
 
 class ComponentToPrint extends React.Component {
   constructor(props) {
@@ -14,8 +12,37 @@ class ComponentToPrint extends React.Component {
     this.state = {
       products: [],
       totalPrice: 0,
+      jason:{
+        "age" : "24",
+        "hometown" : "Missoula, MT",
+        "gender" : "male"
+      }
+
     }
   }
+
+  getListFromServer = () => {
+  axios.get('https://localhost:44358/api/Receipt')
+    .then((response) => {
+      console.log(response.data)
+    })
+  }
+
+  getProductFromServer = () => {
+   axios.get('https://localhost:44358/api/Receipt/1')
+     .then((response) => {
+       console.log(response.data)
+     })
+   }
+
+   addProduct = () => {
+    // axios.post('https://localhost:44358/api/Receipt/Print', "HEJ").then((res)=> console.log(res));
+   axios.post('https://127.0.0.1:44358/api/Receipt/Add', {products:this.state.products})
+     .then((response) => {
+       console.log(response)
+     })
+   }
+  
 
   componentDidMount() {
     axios.get('https://my-json-server.typicode.com/Jebisan/db/data').then((response) => {
@@ -40,18 +67,6 @@ class ComponentToPrint extends React.Component {
   render() {
     return (
       <div className="App">
-        <Nfc
-          write="Written with nfc-react-web"
-          writeCallback={error => {
-            if (error) {
-              console.log('An error occurred while writing to tag: ', error);
-            } else {
-              console.log('Data written to tag! :)');
-            }
-          }}
-          
-          timeout={15} // time to keep trying to write to tags, in seconds
-        />
         <img src={logo} className="logo" alt="logo" />
         <div className="headerinfo">
           <p>{data.header}</p>
@@ -75,7 +90,6 @@ class ComponentToPrint extends React.Component {
             </tbody>
           </table>
         </div>
-
 
         <table>
           <tbody>
@@ -151,9 +165,9 @@ class ComponentToPrint extends React.Component {
           </div>
         </div>
         <svg id="barcode"></svg>
-
-
-
+        <button onClick={this.getListFromServer} >GET LIST FROM SERVER</button>
+        <button onClick={this.getProductFromServer} >GET PRODUCT FROM SERVER</button>
+        <button onClick={this.addProduct} >POST!</button>
       </div>
     );
   }
@@ -163,15 +177,15 @@ const Example = () => {
   const componentRef = useRef();
   return (
     <div>
-      <ComponentToPrint ref={componentRef} />
       <ReactToPrint
+        trigger={() => < button className="btn" >Print this out!</button>}
         content={() => componentRef.current}
-        copyStyles={true}
-        trigger={() => <button className="btn" >Print receipt</button>}
+        
       />
-
+      <ComponentToPrint ref={componentRef} />
     </div>
   );
 };
+
 
 export default Example;
