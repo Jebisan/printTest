@@ -1,76 +1,41 @@
-import React, { useRef } from 'react';
-import ReactToPrint from 'react-to-print';
+import React, {useState, useEffect} from 'react';
 import logo from './logo.png';
-import './App.css';
 import axios from 'axios';
 import {data} from './data.js'
 var JsBarcode = require('jsbarcode');
-const queryString = require('query-string');
 
-
-class ComponentToPrint extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      products: [],
-      totalPrice: 0,
-      jason:{
-        "age" : "24",
-        "hometown" : "Missoula, MT",
-        "gender" : "male"
-      }
-
-    }
-  }
-
-  getListFromServer = () => {
-  axios.get('https://localhost:44358/api/Receipt')
-    .then((response) => {
-      console.log(response.data)
-    })
-  }
-
-  getProductFromServer = () => {
-   axios.get('https://localhost:44358/api/Receipt/1')
-     .then((response) => {
-       console.log(response.data)
-     })
-   }
-
-   addProduct = () => {
-     axios({
-      method: 'post',
-      url: 'http://127.0.0.1:44358/api/Receipt/Add',
-      headers: { 'content-type': 'application/json; charset=utf-8' },
-      data: ({"data":this.state.products}),
-      
-    });
-    
-
-   }
+ const ComponentToPrint = () => {
   
+  const [products, setProducts] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
 
-  componentDidMount() {
+
+  useEffect(() => {
     axios.get('https://my-json-server.typicode.com/Jebisan/db/data').then((response) => {
-      this.setState({ products: response.data })
-    }).then(() =>
-      this.state.products.forEach(product => {
-        this.setState((prevState) => {
-          return { totalPrice: prevState.totalPrice += product.PRICE }
-        })
-      })
+      setProducts(response.data)} 
     );
+        JsBarcode(".barcode").init();
 
-    JsBarcode("#barcode", "14192000057464", {
-      format: "code39",
-      lineColor: "#000",
-      width: 1.5,
-      height: 35,
-      displayValue: true
-    });
+  }, []);
+
+
+  useEffect(() => {
+    products.forEach(product => {
+      setTotalPrice(prevPrice=>prevPrice+product.PRICE)}
+      )
+  }, [products]);
+
+
+  const print = () => {
+    axios({
+     method: 'post',
+     url: 'http://127.0.0.1:44358/api/Receipt/Add',
+     headers: { 'content-type': 'application/json; charset=utf-8' },
+     data: ({"data":products}),
+     
+   });
   }
 
-  render() {
     return (
       <div className="App">
         <img src={logo} className="logo" alt="logo" />
@@ -85,7 +50,7 @@ class ComponentToPrint extends React.Component {
         <div className='products'>
           <table >
             <tbody>
-              {this.state.products.map((product, index) => {
+              {products.map((product, index) => {
                 return (
                   <tr key={index}>
                     <td className="product" >{product.PRODUCT}</td>
@@ -110,11 +75,11 @@ class ComponentToPrint extends React.Component {
             </tr>
             <tr>
               <td className="totalText">AT BETALE</td>
-              <td className="totalPrice" >{(this.state.totalPrice).toFixed(2)} DKK</td>
+              <td className="totalPrice" >{(totalPrice).toFixed(2)} DKK</td>
             </tr>
             <tr>
               <td className="momsText">HERAF UDGØR MOMS</td>
-              <td className="momsPrice" >{(this.state.totalPrice / 5).toFixed(2)} DKK</td>
+              <td className="momsPrice" >{(totalPrice / 5).toFixed(2)} DKK</td>
             </tr>
           </tbody>
         </table>
@@ -170,28 +135,22 @@ class ComponentToPrint extends React.Component {
           <p>Søndag:</p> <p className="openingtime">{data.openinghours.søndag}</p>
           </div>
         </div>
-        <svg id="barcode"></svg>
-        <button onClick={this.getListFromServer} >GET LIST FROM SERVER</button>
-        <button onClick={this.getProductFromServer} >GET PRODUCT FROM SERVER</button>
-        <button onClick={this.addProduct} >POST!</button>
+  
+        <svg className="barcode"
+            jsbarcode-format="code39"
+            jsbarcode-value="14192000057464"
+            jsbarcode-width="2"
+            jsbarcode-height="35"
+            >
+        </svg>
+
+
+        
+
+        <button className="btn" onClick={print} >PRINT!</button>
       </div>
     );
   }
-}
-
-const Example = () => {
-  const componentRef = useRef();
-  return (
-    <div>
-      <ReactToPrint
-        trigger={() => < button className="btn" >Print this out!</button>}
-        content={() => componentRef.current}
-        
-      />
-      <ComponentToPrint ref={componentRef} />
-    </div>
-  );
-};
 
 
-export default Example;
+export default ComponentToPrint;
