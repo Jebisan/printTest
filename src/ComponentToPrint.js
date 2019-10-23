@@ -5,6 +5,8 @@ import './App.css';
 import axios from 'axios';
 import {data} from './data.js'
 var JsBarcode = require('jsbarcode');
+const queryString = require('query-string');
+
 
 class ComponentToPrint extends React.Component {
   constructor(props) {
@@ -36,11 +38,15 @@ class ComponentToPrint extends React.Component {
    }
 
    addProduct = () => {
-    // axios.post('https://localhost:44358/api/Receipt/Print', "HEJ").then((res)=> console.log(res));
-   axios.post('https://127.0.0.1:44358/api/Receipt/Add', {products:this.state.products})
-     .then((response) => {
-       console.log(response)
-     })
+     axios({
+      method: 'post',
+      url: 'http://127.0.0.1:44358/api/Receipt/Add',
+      headers: { 'content-type': 'application/json; charset=utf-8' },
+      data: ({"data":this.state.products}),
+      
+    });
+    
+
    }
   
 
