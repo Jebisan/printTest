@@ -1,14 +1,17 @@
+import moment from 'moment';
+
+
+
 export const data = {
     header: 'Matas Rosengårdscentret',
     address: 'Ørbækvej 75, 5220 Odense',
     tlf: '66 15 96 68',
     cvr: '27528430',
     butiksnr: '10040',
-    betjening: 'Lene B.',
+    betjening: 'Hesehus POS',
     kasse:'5',
-    dato: '06/06/2019',
-    tid: '15:12:31',
-    bon: '00035091',
+    tidspunkt: moment().format("DD/MM/YYYY, k:mm"),
+    bon: '14192000057464',
     openinghours: {
         mandag: '10.00 - 19.00',
         tirsdag: '10.00 - 19.00',
